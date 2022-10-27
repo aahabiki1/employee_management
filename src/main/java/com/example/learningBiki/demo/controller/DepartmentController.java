@@ -7,16 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class DepartmentController {
-    @Autowired
+    @Autowired(required = true)
     DepartmentService departmentService;
 
     @GetMapping("/departments")
-    public ResponseEntity<Departments> getDepartments() {
-        return new ResponseEntity<Departments>(departmentService.getDepartment(), HttpStatus.OK);
+    public ResponseEntity<List<Departments>> getDepartments() {
+        return new ResponseEntity<>(departmentService.getAllDepartment(),HttpStatus.OK);
+
     }
+
+    @GetMapping("/departments/{departmentId}")
+    public ResponseEntity<Departments> getDeparmentById (@PathVariable ("departmentId") int departmentId){
+     ResponseEntity<Departments> getById =    departmentService.getDepartmentById(departmentId);
+     return  getById;
+
+
+
+    }
+
+
 }
